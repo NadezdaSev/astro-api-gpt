@@ -1,0 +1,114 @@
+openapi: 3.1.0
+info:
+  title: Astro GPT API
+  version: 1.0.0
+servers:
+  - url: https://YOUR-RENDER-URL.onrender.com
+paths:
+  /natal:
+    post:
+      operationId: getNatalChart
+      summary: Получить натальную карту
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BirthData'
+      responses:
+        '200':
+          description: Натальная карта
+          content:
+            application/json:
+              schema:
+                type: object
+  /transits:
+    post:
+      operationId: getTransits
+      summary: Получить транзиты
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransitData'
+      responses:
+        '200':
+          description: Транзиты на дату
+          content:
+            application/json:
+              schema:
+                type: object
+  /relocation:
+    post:
+      operationId: getRelocation
+      summary: Получить релокацию
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RelocationData'
+      responses:
+        '200':
+          description: Новые координаты
+          content:
+            application/json:
+              schema:
+                type: object
+  /astrography:
+    post:
+      operationId: getAstrography
+      summary: Получить астрографию (линии)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BirthData'
+      responses:
+        '200':
+          description: Линии планет
+          content:
+            application/json:
+              schema:
+                type: object
+components:
+  schemas:
+    BirthData:
+      type: object
+      properties:
+        date:
+          type: string
+          example: "1990-01-01"
+        time:
+          type: string
+          example: "14:30"
+        lat:
+          type: number
+          example: 55.75
+        lon:
+          type: number
+          example: 37.62
+        tz:
+          type: number
+          example: 3.0
+    TransitData:
+      allOf:
+        - $ref: '#/components/schemas/BirthData'
+        - type: object
+          properties:
+            target_date:
+              type: string
+              example: "2025-01-01"
+    RelocationData:
+      allOf:
+        - $ref: '#/components/schemas/BirthData'
+        - type: object
+          properties:
+            rel_lat:
+              type: number
+              example: 40.71
+            rel_lon:
+              type: number
+              example: -74.00
